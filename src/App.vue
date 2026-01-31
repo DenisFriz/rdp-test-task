@@ -5,6 +5,7 @@ import { ref, onMounted } from "vue";
 import CreateModal from "./components/CreateModal.vue";
 import axiosClient from "./api/axiosClient";
 import type { Lead, LeadsResponse } from "./types/leads.types";
+import bg from "./assets/bg-img.png";
 
 const showModal = ref(false);
 
@@ -34,14 +35,17 @@ const closeModal = async () => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-surface p-6">
-    <section class="pt-30">
-      <div class="max-w-365 mx-auto px-2.5">
+  <main
+    class="min-h-screen bg-surface"
+    :style="{ backgroundImage: `url(${bg})` }"
+  >
+    <section class="py-30">
+      <div class="w-full px-4">
         <div class="flex flex-col justify-between items-start">
           <Button
             label="New Lead"
             icon="pi pi-plus"
-            class="bg-surface! py-1.5! px-6! border! border-neutral600! rounded-lg! text-neutral600! mb-4! gap-6!"
+            class="bg-surface! py-1.5! px-6! border! border-neutral600! rounded-lg! text-neutral600! mb-4! gap-6! min-w-41.75 font-medium h-8"
             @click="openModal"
           />
           <Table :leads="leads" />

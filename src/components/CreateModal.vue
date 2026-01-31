@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import axiosClient from "../api/axiosClient";
+import Dialog from "primevue/dialog";
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
+import Select from "primevue/select";
+import Button from "primevue/button";
+import Message from "primevue/message";
 
-const props = defineProps({
-  visible: Boolean,
-});
+const props = defineProps<{
+  visible: boolean;
+}>();
 
 const emit = defineEmits(["close"]);
 
-const close = () => {
-  emit("close");
-};
+const close = () => emit("close");
 
 const form = ref({
   firstName: "",
@@ -23,10 +27,10 @@ const form = ref({
   campaignName: "",
 });
 
-const sourceMap: Record<string, number> = {
-  Facebook: 1,
-  Instagram: 2,
-};
+const sourceOptions = [
+  { label: "Facebook", value: 1 },
+  { label: "Instagram", value: 2 },
+];
 
 const serverErrors = ref<string[]>([]);
 
@@ -43,11 +47,10 @@ const handleSubmit = async () => {
       phone: form.value.phone,
       countryISO: form.value.countryISO,
       campaignName: form.value.campaignName,
-      sourceId: sourceMap[form.value.source] || 0,
+      sourceId: form.value.source || 0,
     };
 
-    const response = await axiosClient.post("/leads", payload);
-    console.log("Успешно создано:", response.data);
+    await axiosClient.post("/leads", payload);
 
     close();
 
@@ -69,175 +72,209 @@ const handleSubmit = async () => {
     } else {
       serverErrors.value = [error.response?.data?.error || error.message];
     }
-    console.error("Ошибка:", serverErrors.value);
   }
 };
 </script>
 
 <template>
-  <div
-    v-if="visible"
-    class="fixed inset-0 bg-[#000005cc] flex items-center justify-center z-50"
-    @click.self="close"
+  <Dialog
+    :visible="visible"
+    modal
+    header="Create New Lead"
+    :closable="false"
+    :dismissableMask="true"
+    class="w-160"
+    @update:visible="close"
   >
-    <div class="bg-white rounded-lg shadow-lg min-w-160 p-6 relative">
-      <h2
-        class="text-xl text-neutral800 font-semibold mb-6 text-center px-2 py-1"
-      >
-        Create New Lead
-      </h2>
+    <div v-if="serverErrors.length" class="mb-4 space-y-2 mt-4">
+      <Message v-for="(err, i) in serverErrors" :key="i" severity="error">
+        {{ err }}
+      </Message>
+    </div>
 
-      <div v-if="serverErrors.length" class="mb-4">
-        <ul class="text-danger text-sm list-disc list-inside">
-          <li v-for="(err, index) in serverErrors" :key="index">{{ err }}</li>
-        </ul>
+    <form
+      @submit.prevent="handleSubmit"
+      class="grid grid-cols-2 gap-4 items-start"
+    >
+      <div class="space-y-4 bg-neutral100 py-3 px-6 rounded-lg">
+        <span class="p-float-label">
+          <label
+            for="firstName"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> First Name</label
+          >
+          <InputText
+            id="firstName"
+            v-model="form.firstName"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="अभिजीत"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="lastName"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Last Name</label
+          >
+          <InputText
+            id="lastName"
+            v-model="form.lastName"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="Doe"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="email"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Email</label
+          >
+          <InputText
+            id="email"
+            type="email"
+            v-model="form.email"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="john1z24x.doe@example.com"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="phone"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Phone</label
+          >
+          <InputText
+            id="phone"
+            v-model="form.phone"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="12345678917"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="password"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Password</label
+          >
+          <Password
+            id="password"
+            v-model="form.password"
+            toggleMask
+            class="w-full"
+            inputClass="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="SecurePasswor"
+          />
+        </span>
+      </div>
+      <div class="space-y-4 bg-neutral100 py-3 px-6 rounded-lg">
+        <span class="p-float-label">
+          <label
+            for="source"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Source</label
+          >
+          <Select
+            ref="selectRef"
+            labelId="source"
+            v-model="form.source"
+            :options="sourceOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Not Selected"
+            class="w-full"
+            inputClass="focus:border-primary!"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="countryISO"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Country ISO</label
+          >
+          <InputText
+            id="countryISO"
+            v-model="form.countryISO"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="TV"
+          />
+          <div class="h-px bg-neutral400 mt-4 mb-2"></div>
+        </span>
+
+        <span class="p-float-label">
+          <label
+            for="campaignName"
+            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
+            ><span class="text-danger mr-1.5">*</span> Campaign Name</label
+          >
+          <InputText
+            id="campaignName"
+            v-model="form.campaignName"
+            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            placeholder="TEst"
+          />
+        </span>
       </div>
 
-      <form
-        class="grid grid-cols-2 gap-6 mb-6 items-start"
-        @submit.prevent="handleSubmit"
-      >
-        <div class="bg-gray-50 p-4 rounded-lg space-y-4">
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="firstName">
-              <span class="text-danger">*</span> First Name
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              placeholder="अभिजीत"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.firstName"
-              required
-            />
-          </div>
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="lastName">
-              <span class="text-danger">*</span> Last Name
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              placeholder="Doe"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.lastName"
-              required
-            />
-          </div>
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="email">
-              <span class="text-danger">*</span> Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="john1z24x.doe@example.com"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.email"
-              required
-            />
-          </div>
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="phone">
-              <span class="text-danger">*</span> Phone
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              placeholder="12345678917"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.phone"
-              required
-            />
-          </div>
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="password">
-              <span class="text-danger">*</span> Password
-            </label>
-            <div class="relative">
-              <input
-                id="password"
-                type="password"
-                placeholder="SecurePassword"
-                class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                v-model="form.password"
-                required
-              />
-              <button
-                type="button"
-                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-700"
-                aria-label="Toggle password visibility"
-              >
-                👁️
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="bg-gray-50 p-4 rounded-lg space-y-4">
-          <div>
-            <label class="block mb-1 font-medium text-gray-700" for="source">
-              <span class="text-danger">*</span> Source
-            </label>
-            <select
-              id="source"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.source"
-              required
-            >
-              <option disabled value="">Not Selected</option>
-              <option>Facebook</option>
-              <option>Instagram</option>
-            </select>
-          </div>
-          <div>
-            <label
-              class="block mb-1 font-medium text-gray-700"
-              for="countryISO"
-            >
-              <span class="text-danger">*</span> Country ISO
-            </label>
-            <input
-              id="countryISO"
-              type="text"
-              placeholder="TV"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.countryISO"
-              required
-            />
-          </div>
-          <div>
-            <label
-              class="block mb-1 font-medium text-gray-700"
-              for="campaignName"
-            >
-              <span class="text-danger">*</span> Campaign Name
-            </label>
-            <input
-              id="campaignName"
-              type="text"
-              placeholder="TEst"
-              class="w-full rounded-md border text-neutral500 border-neutral400 px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              v-model="form.campaignName"
-              required
-            />
-          </div>
-        </div>
-        <div class="flex justify-center gap-4 col-span-full">
-          <button
-            type="submit"
-            class="cursor-pointer not-first:px-6 py-2 bg-primary text-sm text-white border-primary rounded-lg min-w-34 hover:bg-blue-700 transition"
-          >
-            Create
-          </button>
-          <button
-            @click="close"
-            type="button"
-            class="cursor-pointer px-6 py-2 bg-info text-sm text-primary border-primary border-2 rounded-lg min-w-34 hover:bg-blue-200 transition"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+      <div class="col-span-2 flex justify-center gap-6 mt-6">
+        <Button
+          label="Create"
+          type="submit"
+          class="min-w-34! rounded-lg! bg-primary! border! border-primary! text-white! font-medium! text-sm!"
+        />
+        <Button
+          label="Cancel"
+          severity="secondary"
+          outlined
+          type="button"
+          class="min-w-34! rounded-lg! bg-info! border! border-primary! text-primary! font-medium! text-sm!"
+          @click="close"
+        />
+      </div>
+    </form>
+  </Dialog>
 </template>
+
+<style>
+.p-dialog {
+  background-color: #fff !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.p-dialog-header {
+  padding: 24px !important;
+}
+
+.p-dialog-content {
+  padding: 0 24px 24px 24px !important;
+}
+
+.p-dialog-title {
+  color: #334155 !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+}
+
+.p-dialog-header {
+  justify-content: center !important;
+}
+
+.p-select-overlay {
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0px 1px 2px rgba(18, 18, 23, 0.05) !important;
+  border-radius: 8px;
+}
+
+.p-select-overlay {
+  box-shadow: 0px 4px 6px -1px #0000001a !important;
+}
+</style>

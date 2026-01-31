@@ -28,12 +28,12 @@ const first = ref(0);
         header="ID Lead"
         sortable
         class="text-center"
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.leadId }}
           </div>
@@ -44,12 +44,12 @@ const first = ref(0);
         header="Account Type"
         sortable
         class="text-center"
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.accountType }}
           </div>
@@ -60,12 +60,12 @@ const first = ref(0);
         header="Email"
         sortable
         class="text-center"
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.email }}
           </div>
@@ -75,12 +75,12 @@ const first = ref(0);
         field="phone"
         header="Phone"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.phone }}
           </div>
@@ -90,12 +90,12 @@ const first = ref(0);
         field="countryName"
         header="Country Name"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.countryName }}
           </div>
@@ -105,12 +105,12 @@ const first = ref(0);
         field="leadRegistration"
         header="Lead Registration"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.leadRegistration }}
           </div>
@@ -120,12 +120,12 @@ const first = ref(0);
         field="campaignName"
         header="Campaign Name"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.campaignName }}
           </div>
@@ -135,12 +135,12 @@ const first = ref(0);
         field="leadStatus"
         header="Lead Status"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.leadStatus }}
           </div>
@@ -150,12 +150,12 @@ const first = ref(0);
         field="registrationTime"
         header="Registration Time"
         sortable
-        headerClass="bg-neutral200! text-neutral800! text-sm! text-center! border! border-neutral300!"
+        headerClass="bg-neutral200! text-neutral800! text-sm! text-center!"
         bodyClass="bg-surface"
       >
         <template #body="{ data }">
           <div
-            class="flex items-center justify-center w-full h-full text-neutral700"
+            class="flex items-center justify-center w-full h-full text-neutral700 text-sm"
           >
             {{ data.registrationTime }}
           </div>
@@ -165,15 +165,39 @@ const first = ref(0);
   </div>
 </template>
 
-<style scoper>
+<style>
 .p-paginator {
   background-color: #ffffff !important;
-  border: none;
-  padding: 0.25rem;
+  border-radius: 8px 8px 0 0;
+  padding-block: 8px;
+}
+
+.p-datatable-column-title {
+  font-weight: 600 !important;
+}
+
+.p-datatable-column-header-content {
+  justify-content: center;
+}
+
+.p-datatable-sort-icon {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.p-datatable-paginator-top {
+  border: none !important;
 }
 
 .p-datatable-tbody > tr {
   background-color: #ffffff !important;
+}
+
+.p-datatable-thead > tr > th {
+  border-top: 1px solid #e2e8f0 !important;
+  border-left: none !important;
+  border-right: 1px solid #e2e8f0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .p-select {
@@ -182,6 +206,16 @@ const first = ref(0);
 }
 .p-select-label {
   color: #94a3b8 !important;
+  padding: 12px;
+}
+
+.p-paginator-page {
+  font-size: 14px !important;
+}
+
+.p-icon {
+  width: 14px !important;
+  height: 14px !important;
 }
 
 .p-paginator-page.p-paginator-page-selected {
@@ -216,7 +250,15 @@ const first = ref(0);
 }
 
 .p-datatable-tbody > tr > td {
-  border-width: 1px !important;
-  border-color: #e2e8f0 !important;
+  border-right: 1px solid #e2e8f0 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
 }
 </style>
