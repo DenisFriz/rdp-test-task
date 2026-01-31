@@ -54,16 +54,7 @@ const handleSubmit = async () => {
 
     close();
 
-    form.value = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      password: "",
-      source: "",
-      countryISO: "",
-      campaignName: "",
-    };
+    clearData();
   } catch (error: any) {
     if (error.response?.data?.errors) {
       serverErrors.value = error.response.data.errors.map(
@@ -73,6 +64,24 @@ const handleSubmit = async () => {
       serverErrors.value = [error.response?.data?.error || error.message];
     }
   }
+};
+
+const hanldeClose = () => {
+  clearData();
+  close();
+};
+
+const clearData = () => {
+  form.value = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    source: "",
+    countryISO: "",
+    campaignName: "",
+  };
 };
 </script>
 
@@ -94,20 +103,25 @@ const handleSubmit = async () => {
 
     <form
       @submit.prevent="handleSubmit"
-      class="grid grid-cols-2 gap-4 items-start"
+      class="grid grid-cols-2 gap-x-4 gap-y-6 items-start"
     >
       <div class="space-y-4 bg-neutral100 py-3 px-6 rounded-lg">
         <span class="p-float-label">
           <label
             for="firstName"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> First Name</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+          >
+            First Name
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="firstName"
             v-model="form.firstName"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="अभिजीत"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -115,14 +129,18 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="lastName"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Last Name</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Last Name
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="lastName"
             v-model="form.lastName"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="Doe"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -130,15 +148,19 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="email"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Email</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Email
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="email"
             type="email"
             v-model="form.email"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="john1z24x.doe@example.com"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -146,14 +168,18 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="phone"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Phone</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Phone
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="phone"
             v-model="form.phone"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="12345678917"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -161,16 +187,21 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="password"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Password</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+          >
+            Password
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <Password
-            id="password"
+            inputId="password"
             v-model="form.password"
             toggleMask
             class="w-full"
-            inputClass="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            inputClass="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="SecurePasswor"
+            required
           />
         </span>
       </div>
@@ -178,8 +209,11 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="source"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Source</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Source
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <Select
             ref="selectRef"
@@ -189,8 +223,9 @@ const handleSubmit = async () => {
             optionLabel="label"
             optionValue="value"
             placeholder="Not Selected"
-            class="w-full"
+            class="h-10 w-full"
             inputClass="focus:border-primary!"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -198,14 +233,18 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="countryISO"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Country ISO</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Country ISO
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="countryISO"
             v-model="form.countryISO"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="TV"
+            required
           />
           <div class="h-px bg-neutral400 mt-4 mb-2"></div>
         </span>
@@ -213,19 +252,23 @@ const handleSubmit = async () => {
         <span class="p-float-label">
           <label
             for="campaignName"
-            class="text-textPrimary! mb-2 block text-[14px]/[21px]"
-            ><span class="text-danger mr-1.5">*</span> Campaign Name</label
+            class="text-textPrimary! mb-2 block relative text-[14px]/[21px] pl-3.25"
+            >Campaign Name
+            <span class="text-danger absolute top-1/2 left-0 -translate-y-1/2"
+              >*</span
+            ></label
           >
           <InputText
             id="campaignName"
             v-model="form.campaignName"
-            class="w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
+            class="h-10 w-full bg-white! border-neutral400! shadow-[0px_1px_2px_0px_#1212170D]! py-2.5! text-neutral500! focus:border-primary!"
             placeholder="TEst"
+            required
           />
         </span>
       </div>
 
-      <div class="col-span-2 flex justify-center gap-6 mt-6">
+      <div class="col-span-2 flex justify-center gap-6">
         <Button
           label="Create"
           type="submit"
@@ -237,7 +280,7 @@ const handleSubmit = async () => {
           outlined
           type="button"
           class="min-w-34! rounded-lg! bg-info! border! border-primary! text-primary! font-medium! text-sm!"
-          @click="close"
+          @click="hanldeClose"
         />
       </div>
     </form>

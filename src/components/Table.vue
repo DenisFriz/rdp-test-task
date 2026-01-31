@@ -198,6 +198,7 @@ const first = ref(0);
   border-left: none !important;
   border-right: 1px solid #e2e8f0 !important;
   border-bottom: 1px solid #e2e8f0 !important;
+  padding: 9px;
 }
 
 .p-select {
@@ -252,6 +253,7 @@ const first = ref(0);
 .p-datatable-tbody > tr > td {
   border-right: 1px solid #e2e8f0 !important;
   border-bottom: 1px solid #e2e8f0 !important;
+  padding: 10px !important;
 }
 
 tbody tr:last-child td:first-child {
